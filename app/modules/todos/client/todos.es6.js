@@ -1,11 +1,7 @@
-if (!Meteor.isClient) {
-  return;
-}
-
 Meteor.subscribe("tasks");
 
 Template.todos.helpers({
-  tasks: function () {
+  tasks() {
     if (Session.get("hideCompleted")) {
       // If hide completed is checked, filter tasks
       return Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
@@ -14,20 +10,22 @@ Template.todos.helpers({
       return Tasks.find({}, {sort: {createdAt: -1}});
     }
   },
-  hideCompleted: function () {
+  
+  hideCompleted() {
     return Session.get("hideCompleted");
   },
-  incompleteCount: function () {
+
+  incompleteCount() {
     return Tasks.find({checked: {$ne: true}}).count();
   }
 });
 
 Template.todos.events({
-  "change .hide-completed input": function (event) {
+  "change .hide-completed input"(event) {
     Session.set("hideCompleted", event.target.checked);
   },
 
-  "submit .new-task": function (event) {
+  "submit .new-task"(event) {
     // This function is called when the new task form is submitted
 
     var text = event.target.text.value;

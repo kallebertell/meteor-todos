@@ -1,7 +1,7 @@
 Tasks = new Mongo.Collection("tasks");
 
 Meteor.methods({
-  addTask: function (text) {
+  addTask(text) {
     // Make sure the user is logged in before inserting a task
     if (! Meteor.userId()) {
       throw new Meteor.Error("not-authorized");
@@ -15,9 +15,9 @@ Meteor.methods({
     });
   },
   
-  deleteTask: function (taskId) {
-    console.log('deleteing ' + taskId);
-    // Inside the deleteTask method
+  deleteTask(taskId) {
+    console.log('deleting ' + taskId);
+
     var task = Tasks.findOne(taskId);
     if (task.private && task.owner !== Meteor.userId()) {
       // If the task is private, make sure only the owner can delete it
@@ -27,8 +27,7 @@ Meteor.methods({
     Tasks.remove(taskId);
   },
   
-  setChecked: function (taskId, setChecked) {
-    // Inside the setChecked method
+  setChecked(taskId, setChecked) {
     var task = Tasks.findOne(taskId);
     if (task.private && task.owner !== Meteor.userId()) {
       // If the task is private, make sure only the owner can check it off
@@ -38,7 +37,7 @@ Meteor.methods({
     Tasks.update(taskId, { $set: { checked: setChecked} });
   },
 
-  setPrivate: function (taskId, setToPrivate) {
+  setPrivate(taskId, setToPrivate) {
     var task = Tasks.findOne(taskId);
 
     // Make sure only the task owner can make a task private

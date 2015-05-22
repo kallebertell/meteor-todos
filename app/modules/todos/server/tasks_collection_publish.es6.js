@@ -1,8 +1,5 @@
-if (!Meteor.isServer) {
- return;
-}
 
-Meteor.publish("tasks", function () {
+Meteor.publish("tasks", () => {
 	return Tasks.find({
 	  $or: [
 	    { private: {$ne: true} },
